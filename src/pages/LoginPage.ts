@@ -1,27 +1,35 @@
 import { BasePage } from '@pages/BasePage';
+import { Page } from '@playwright/test';
 
 export class LoginPage extends BasePage {
 
-async navigateToApp() {
-  await this.navigateTo('http://desktop-p4llia9/');
-}
+    constructor(page: Page) {
+        super(page);
+    }
 
-  async enterUsername(username: string) {
-    await this.fill('input[name="username"]', username, 'Enter username');
-  }
+    async navigateToApp() {
+        await this.navigateTo('http://desktop-p4llia9/', 'Navigate to App URL');
+    }
 
-  async enterPassword(password: string) {
-    await this.fill('input[name="pwd"]', password, 'Enter password');
-  }
+    async enterUsername(username: string) {
+        await this.fill('input[name="username"]', username, 'Enter username');
+    }
 
- async submitLogin() {
-  // Use BasePage click helper with XPath
-  await this.click('//a[@id="loginButton"]', 'Click login button');
-}
+    async enterPassword(password: string) {
+        await this.fill('input[name="pwd"]', password, 'Enter password');
+    }
 
-  async login(username: string, password: string) {
-    await this.enterUsername(username);
-    await this.enterPassword(password);
-    await this.submitLogin();
-  }
+    async submitLogin() {
+        // Wait for navigation after clicking login
+        await Promise.all([
+            this.page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+            this.click('//a[@id="loginButton"]', 'Click login button')
+        ]);
+    }
+
+    async login(username: string, password: string) {
+        await this.enterUsername(username);
+        await this.enterPassword(password);
+        await this.submitLogin();
+    }
 }

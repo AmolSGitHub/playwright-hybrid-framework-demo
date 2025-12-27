@@ -1,8 +1,26 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "target": "ES6",                      // Compile to ES6
+    "module": "commonjs",                 // Node module system
+    "lib": ["ESNext", "DOM"],             // Modern JS + DOM
+    "outDir": "dist",                     // Output folder for compiled JS
+    "rootDir": "src",                     // Root folder for TS source files
+    "strict": true,                       // Enable all strict type-checking options
+    "moduleResolution": "node",           // Node module resolution
+    "esModuleInterop": true,              // Enable interop for commonjs modules
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,            // Allow importing JSON
+    "types": ["node", "playwright"],      // Include Node and Playwright types
+    "baseUrl": "./src",                    // Base URL for path aliases
     "paths": {
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
+      "@constants/*": ["constants/*"],
+      "@fixtures/*": ["fixtures/*"],
+      "@reporters/*": ["reporters/*"],
+      "@types/*": ["types/*"]
     }
-  }
+  },
+  "include": ["src", "tests"],           // Include these folders
+  "exclude": ["node_modules", "dist"]    // Exclude compiled output and dependencies
 }

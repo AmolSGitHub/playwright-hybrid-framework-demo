@@ -1,28 +1,37 @@
 import { Page } from '@playwright/test';
-import { allure } from 'allure-playwright';
+import { Timeouts } from '@constants/Timeouts';
+import { ExtentManager } from '@utils/ExtentManager';
 
 export class BasePage {
-  protected page: Page;
+    protected page: Page;
 
-  constructor(page: Page) {
-    this.page = page;
-  }
+    constructor(page: Page) {
+        this.page = page;
+    }
 
-  async navigateTo(url: string) {
-    await allure.step(`Navigate to URL: ${url}`, async () => {
-      await this.page.goto(url);
-    });
-  }
+    async navigateTo(url: string, actionName?: string) {
+        if (actionName) {
+            console.log(`Action: ${actionName}`);
+            await ExtentManager.getReporter()?.logTest(actionName, 'PASS');
+        }
+        await this.page.goto(url, { timeout: Timeouts.PAGE_LOAD });
+    }
 
-  async click(selector: string, description?: string) {
-    await allure.step(description || `Click element: ${selector}`, async () => {
-      await this.page.click(selector);
-    });
-  }
+    async click(selector: string, actionName?: string) {
+        if (actionName) {
+            console.log(`Action: ${actionName}`);
+            await ExtentManager.getReporter()?.logTest(actionName, 'PASS');
+        }
+        await this.page.waitForSelector(selector, { state: 'visible', timeout: Timeouts.ELEMENT_WAIT });
+        await this.page.click(selector);
+    }
 
-  async fill(selector: string, value: string, description?: string) {
-    await allure.step(description || `Fill element: ${selector} with ${value}`, async () => {
-      await this.page.fill(selector, value);
-    });
-  }
+    async fill(selector: string, value: string, actionName?: string) {
+        if (actionName) {
+            console.log(`Action: ${actionName}`);
+            await ExtentManager.getReporter()?.logTest(actionName, 'PASS', value);
+        }
+        await this.page.waitForSelector(selector, { state: 'visible', timeout: Timeouts.ELEMENT_WAIT });
+        await this.page.fill(selector, value);
+    }
 }
