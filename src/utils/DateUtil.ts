@@ -14,4 +14,10 @@ export class DateUtil {
         const ss = String(date.getSeconds()).padStart(2, '0');
         return `${hh}:${mm}:${ss}`;
     }
+    static generateCustomerName(): string {
+        const timestamp = Date.now(); // current time in milliseconds
+        const customerName = `Customer${timestamp}`;
+        console.log(`Customer Name Is: ${customerName}`);
+        return customerName;
+    }
 }

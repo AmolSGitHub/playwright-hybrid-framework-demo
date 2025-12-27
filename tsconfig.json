@@ -17,6 +17,7 @@
       "@utils/*": ["utils/*"],
       "@constants/*": ["constants/*"],
       "@fixtures/*": ["fixtures/*"],
+      "@flows/*": ["flows/*"],
       "@reporters/*": ["reporters/*"],
       "@types/*": ["types/*"]
     }
